@@ -68,3 +68,12 @@ module.exports = function () {
         }
     };
 };
+
+// driver code below for mongo for node.js taken from mongo itself
+// var MongoClient = require('mongodb').MongoClient;
+// var uri = "mongodb://<username>:<password>@<hostname>/myFirstDatabase?ssl=true&replicaSet=atlas-4mfsjl-shard-0&authSource=admin&retryWrites=true&w=majority";
+// MongoClient.connect(uri, function(err, client) {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
