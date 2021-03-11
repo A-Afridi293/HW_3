@@ -118,24 +118,141 @@ router.route('/signin')
     });
 
 router.route('/movies')
-    .get(
-        function (req, res) {
-            res.json(getMoviesJSONObject(req, "GET movies"));
-        })
-    .post(
-        function (req, res) {
-            res.json(getMoviesJSONObject(req, "movie saved"));
-        })
-    .put(
-        authJwtController.isAuthenticated,
-        function (req, res) {
-            res.json(getMoviesJSONObject(req, "movie updated"));
-        })
-    .delete(
-        authController.isAuthenticated,
-        function (req, res) {
-            res.json(getMoviesJSONObject(req, "movie deleted"));
+    .get(authJwtController.isAuthenticated,function(req,res)
+    {
+        if(true)
+        {
+            Movie.find({},function(err,movies)
+            {
+                if(err){res.send(err);}
+                res.json({Movie:movies});
+            })
+            
+        }
+    })
+
+
+    .post(authJwtController.isAuthenticated,function(req,res)
+    {
+        if(!req.body.title|| !req.body.year|| !req.body.Genre|| !req.body.Actors && !req.body.Actors.length)
+        {
+            res.json({success:false,msg:'Provide movie title, the Year the Movie Released, the Genre, and Actors(Character they Played and Actors real name)'});
+
+        }
+        else
+        {
+            if(req.body.Actors.length < 3)
+            {
+                res.json({success:false,msg:'Make sure there are a minimum of 3 Actors.'});
+            }
+            else
+            {
+                var movie = new Movie(req,res);
+                movie.title = req.body.title;
+                movie.year = req.body.year;
+                movie.Genre = req.body.Genre;
+                movie.Actors = req.body.Actors;
+                
+                movie.save(function(error)
+                {
+                    if (err)
+                    {
+                        if(error.code==11000)
+                            return res.json({success:false,msg:'Movie Title Already exists in DB'});
+                        else
+                            return res.send(error);
+                    }
+
+                    res.json({msg:'Movie has been created'});
+
+                });
+
+            }
+        
+        }
+
+
+
+
+    })
+
+
+    .put(authJwtController.isAuthenticated,function(req,res)
+    {
+        var  id = req.headers.id;
+        Movie.findOne({_id:id}).exec(function(error,movie)
+        {  
+            if(err) res.send(err);
+            movie.title = req.body.title;
+            movie.year = req.body.year;
+            movie.Genre = req.body.Genre;
+            movie.Actors = req.body.Actors;
+            
+            movie.save(function(err)
+            {
+                if (err)
+                    {
+                        if(error.code==11000)
+                            return res.json({success:false,msg:'Movie Title Already exists in DB'});
+                        else
+                            return res.send(error);
+                    }
+
+                    res.json({msg:'Movie has been created'});
+
+
+
+            });
+
+
+
+
         });
+
+
+
+    })
+
+
+
+
+    .delete(authJwtController.isAuthenticated, function (req, res)
+    {
+        if(!req.body.title)
+        {
+            return res.json({success:false,msg:'Need a valid movie title'});
+        }
+        
+        else
+        {
+            Movie.findOne({title: req.body.title}).exec(function(err,result)
+            {
+                if(req !== null)
+                {
+                    Movie.remove({title: req.body.title}).exec(function(err)
+                    {
+                        if (err) res.json({success:false,msg: req.body.title+' is not found'});
+                        else res.json({success:true,msg:'Movie has been deleted'});
+
+
+                    })
+
+                }
+
+
+
+
+            });
+
+
+
+        }
+
+
+
+
+
+    });
     
 
 app.use('/', router);
