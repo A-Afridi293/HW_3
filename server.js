@@ -1,3 +1,18 @@
+var express = require('express');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var authJwtController = require('./auth_jwt');
+var User = require('./user');
+var Movie = require('./movies');
+var jwt = require('jsonwebtoken');
+var cors= require('cors');
+var app = express();
+module.exports = app; // for testing
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+
 const express = require("express");
 const http = require('http');
 const bodyParser = require('body-parser');
