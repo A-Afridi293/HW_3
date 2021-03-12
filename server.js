@@ -158,7 +158,7 @@ router.route('/movies')
             }
             else
             {
-                var movie = new Movie(req,res);
+                var movie = new Movie();
                 movie.title = req.body.title;
                 movie.year = req.body.year;
                 movie.Genre = req.body.Genre;
