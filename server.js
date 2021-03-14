@@ -8,7 +8,7 @@ module.exports = app; // for testing
 const http = require('http');
 const authController = require('./passport_auth');
 const authJwtController = require('./jwt');
-db = require('./data')(); //global hack
+db = require('./data'); //global hack
 var jwt = require('jsonwebtoken');
 
 var app = express();
@@ -137,7 +137,7 @@ router.route('/movies')
             {
                 if(err){res.send(err);}
                 res.json({Movie:movies});
-            })
+            });
             
         }
     })
