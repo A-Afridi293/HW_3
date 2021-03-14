@@ -18,7 +18,7 @@ var MoviesSchema = new Schema({
     title: { type: String, required: true, index: { unique: true } },
     year: { type: String},
     Genre: { type: String, required: true, enum:['Action','Adventure','Comedy','Fantasy','Horror','Mystery','Thriller','Drama','Western']},
-    Actors :  [{Name:{type:String},Character:{type:String}}]
+    Actors : { type : Array,Name:{type:String},Character:{type:String} }
 });
 
 // return the model
