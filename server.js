@@ -166,7 +166,7 @@ router.route('/movies')
                 
                 movie.save(function(error)
                 {
-                    if (err)
+                    if (error)
                     {
                         if(error.code==11000)
                             return res.json({success:false,msg:'Movie Title Already exists in DB'});
@@ -192,15 +192,15 @@ router.route('/movies')
     {
         Movie.findOne({title:req.body.title}).exec(function(error,movie)
         {  
-            if(err) res.send(err);
+            if(error) res.send(error);
             movie.title = req.body.title;
             movie.year = req.body.year;
             movie.Genre = req.body.Genre;
             movie.Actors = req.body.Actors;
             
-            movie.save(function(err)
+            movie.save(function(error)
             {
-                if (err)
+                if (error)
                     {
                         if(error.code==11000)
                             return res.json({success:false,msg:'Movie Title Already exists in DB'});
@@ -235,13 +235,13 @@ router.route('/movies')
         
         else
         {
-            Movie.findOne({title: req.body.title}).exec(function(err,result)
+            Movie.findOne({title: req.body.title}).exec(function(error,result)
             {
                 if(req !== null)
                 {
-                    Movie.remove({title: req.body.title}).exec(function(err)
+                    Movie.remove({title: req.body.title}).exec(function(error)
                     {
-                        if (err) res.json({success:false,msg: req.body.title+' is not found'});
+                        if (error) res.json({success:false,msg: req.body.title+' is not found'});
                         else res.json({success:true,msg:'Movie has been deleted'});
 
 
