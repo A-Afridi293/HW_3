@@ -190,7 +190,8 @@ router.route('/movies')
 
     .put(authJwtController.isAuthenticated,function(req,res)
     {
-        Movie.findOne({title:req.body.title}).exec(function(error,movie)
+        var  id = req.headers.id;
+        Movie.findOne({_id:id}).exec(function(error,movie)
         {  
             if(error) res.send(error);
             movie.title = req.body.title;
@@ -207,20 +208,9 @@ router.route('/movies')
                         else
                             return res.send(error);
                     }
-
                     res.json({msg:'Movie has been created'});
-
-
-
             });
-
-
-
-
         });
-
-
-
     })
 
 
