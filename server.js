@@ -14,7 +14,7 @@ var jwt = require('jsonwebtoken');
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
+app.use(cors());
 app.use(passport.initialize());
 
 var router = express.Router();
